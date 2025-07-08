@@ -181,26 +181,29 @@ fit_bolge12 <- cfa(model, PISA2015_B12, estimator = "ULS")
 fit_bolge12
 fitMeasures(fit_bolge12, c("rmsea", "cfi", "tli", "srmr", "gfi"))
 
+# measurement invariance analysis will be continued with the new data set
+PISA2015_Bolge <-  subset(PISA2015, BOLGE == 1 | BOLGE == 3 | BOLGE == 5 | BOLGE == 6 | BOLGE == 11 | BOLGE == 12)               
+
 ## configural model
-fit_configural_bolge <- cfa(model, data = PISA2015, estimator = "ULS", group = "BOLGE")
+fit_configural_bolge <- cfa(model, data = PISA2015_Bolge, estimator = "ULS", group = "BOLGE")
 fit_configural_bolge
 
 ## weak model
-fit_weak_bolge <- cfa(model, data = PISA2015, estimator = "ULS", group = "BOLGE", group.equal = "loadings")
+fit_weak_bolge <- cfa(model, data = PISA2015_Bolge, estimator = "ULS", group = "BOLGE", group.equal = "loadings")
 fit_weak_bolge
 
 ## configural model versus weak model
 anova(fit_weak_bolge, fit_configural_bolge)
 
 ## strong model
-fit_strong_bolge <- cfa(model, data = PISA2015, estimator = "ULS", group = "BOLGE", group.equal = c("loadings", "intercepts"))
+fit_strong_bolge <- cfa(model, data = PISA2015_Bolge, estimator = "ULS", group = "BOLGE", group.equal = c("loadings", "intercepts"))
 fit_strong_bolge
 
 ## weak model vs strong model
 anova(fit_strong_bolge, fit_weak_bolge)
 
 ## strict model
-fit_strict_bolge <- cfa(model, data = PISA2015, estimator = "ULS", group = "BOLGE",
+fit_strict_bolge <- cfa(model, data = PISA2015_Bolge, estimator = "ULS", group = "BOLGE",
                         group.equal = c("loadings", "intercepts", "residuals"))
 fit_strict_bolge
 
